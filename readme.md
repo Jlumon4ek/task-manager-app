@@ -80,9 +80,9 @@ docker exec -it backend python manage.py migrate django_celery_beat
 ### Документация API
 После запуска документация доступна по адресам:
 
-- **Swagger UI**: http://localhost:8000/api/schema/swagger-ui/
-- **ReDoc**: http://localhost:8000/api/schema/redoc/
-- **OpenAPI Schema**: http://localhost:8000/api/schema/
+- **Swagger UI**: http://{domain/localhost/ip}:8000/api/swagger/
+- **ReDoc**: http://{domain/localhost/ip}:8000/api/schema/redoc/
+- **OpenAPI Schema**: http://{domain/localhost/ip}:8000/api/schema/
 
 ### Основные endpoints
 
