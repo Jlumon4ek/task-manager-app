@@ -1,0 +1,11 @@
+Django
+djangorestframework
+djangorestframework-simplejwt
+django-filter
+cryptography
+psycopg2-binary
+redis
+hiredis
+python-decouple
+loguru
+drf-spectacular
