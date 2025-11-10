@@ -85,6 +85,74 @@ services:
       - ./src:/app
       - ./keys:/keys
 
+  celery_worker:
+    container_name: celery_worker
+    build:
+      context: .
+      dockerfile: dockerfiles/celery.dockerfile
+    restart: always
+    command: celery -A config worker --loglevel=info
+    environment:
+      DEBUG: ${DEBUG}
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      ACCESS_TOKEN_LIFETIME: ${ACCESS_TOKEN_LIFETIME}
+      REFRESH_TOKEN_LIFETIME: ${REFRESH_TOKEN_LIFETIME}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_DB: ${REDIS_DB}
+    networks:
+      - taskmanager_network
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    volumes:
+      - ./src:/app
+      - ./keys:/keys
+
+  celery_beat:
+    container_name: celery_beat
+    build:
+      context: .
+      dockerfile: dockerfiles/celery.dockerfile
+    restart: always
+    command: celery -A config beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    environment:
+      DEBUG: ${DEBUG}
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      ACCESS_TOKEN_LIFETIME: ${ACCESS_TOKEN_LIFETIME}
+      REFRESH_TOKEN_LIFETIME: ${REFRESH_TOKEN_LIFETIME}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_DB: ${REDIS_DB}
+    networks:
+      - taskmanager_network
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    volumes:
+      - ./src:/app
+      - ./keys:/keys
+
 volumes:
   postgres_data:
   redis_data:

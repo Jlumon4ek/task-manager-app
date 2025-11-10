@@ -9,3 +9,5 @@ hiredis
 python-decouple
 loguru
 drf-spectacular
+celery
+django-celery-beat

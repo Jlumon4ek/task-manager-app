@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django_filters',
     'drf_spectacular',
+    'django_celery_beat',
     
     # Local apps
     'apps.users',
@@ -162,11 +163,13 @@ SIMPLE_JWT = {
     'JTI_CLAIM': 'jti',
 }
 
+# Redis Configuration
 REDIS_HOST = config('REDIS_HOST', cast =str)
 REDIS_PORT = config('REDIS_PORT', cast=int)
 REDIS_DB = config('REDIS_DB', cast=int)
 REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/{REDIS_DB}'
 
+# Celery Configuration
 CELERY_BROKER_URL = config('CELERY_BROKER_URL', default=REDIS_URL)
 CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND', default=REDIS_URL)
 CELERY_ACCEPT_CONTENT = ['json']
@@ -174,7 +177,9 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
-CELERY_TASK_TIME_LIMIT = 30 * 60 
+CELERY_TASK_TIME_LIMIT = 30 * 60
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_RESULT_EXTENDED = True 
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Task Manager API',
@@ -196,3 +201,6 @@ SPECTACULAR_SETTINGS = {
         }
     ],
 }
+
+
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='fake')  
