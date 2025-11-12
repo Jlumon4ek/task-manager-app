@@ -80,9 +80,9 @@ docker exec -it backend python manage.py migrate django_celery_beat
 ### Документация API
 После запуска документация доступна по адресам:
 
-- **Swagger UI**: http://{domain/localhost/ip}:8000/api/swagger/
-- **ReDoc**: http://{domain/localhost/ip}:8000/api/schema/redoc/
-- **OpenAPI Schema**: http://{domain/localhost/ip}:8000/api/schema/
+- **Swagger UI**: http://localhost:8000/api/swagger/
+- **ReDoc**: http://localhost:8000/api/schema/redoc/
+- **OpenAPI Schema**: http://localhost:8000/api/schema/
 
 ### Основные endpoints
 
@@ -113,5 +113,6 @@ POST   /api/v1/tasks/{id}/share/   # Поделиться задачей
 DELETE /api/v1/tasks/{id}/unshare/ # Отозвать доступ
 GET    /api/v1/tasks/shared/       # Задачи, доступные мне
 ```
+
 
 
